@@ -53,7 +53,7 @@ const signUpPage = () => {
             <div className="w-7xl h-[90vh] mx-auto grid grid-cols-1 md:grid-cols-2 text-white">
                 {/* LEFT: carbon background (using uploaded local image path) */}
                 <div
-                    className="hidden md:flex items-center justify-center bg-black"
+                    className="h-[90vh] hidden md:flex items-center justify-center bg-black"
                     style={{
                         backgroundImage: "url('/images/logImage.png')",
                         backgroundSize: "cover",
@@ -75,14 +75,16 @@ const signUpPage = () => {
                 </div>
 
                 {/* RIGHT: signup form */}
-                <div className="flex items-center justify-center px-6 md:px-20">
+                <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
                     <div className="w-full max-w-md">
-                        <h2 className="text-4xl font-bold mb-2">Sign Up</h2>
-                        <p className="text-gray-400 mb-8">
-                            Welcome to Back! <span aria-hidden>👋</span>
-                            <br />
-                            <span className="text-sm text-gray-500">Please sign up to create your account and start the adventure</span>
-                        </p>
+                        <div className="text-center">
+                            <h2 className="text-4xl font-bold mb-2">Sign Up</h2>
+                            <p className="text-gray-400 mb-8">
+                                Welcome to Back! <span aria-hidden>👋</span>
+                                <br />
+                                <span className="text-sm text-gray-500">Please sign up to create your account and start the adventure</span>
+                            </p>
+                        </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} noValidate>
                             {/* Username */}

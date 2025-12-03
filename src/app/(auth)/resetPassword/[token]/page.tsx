@@ -53,7 +53,7 @@ const resetPasswordPage = () => {
             <div className="w-7xl h-[90vh] mx-auto grid grid-cols-1 md:grid-cols-2 text-white">
                 {/* LEFT: carbon background */}
                 <div
-                    className="hidden md:flex items-center justify-center bg-black"
+                    className="h-[90vh] hidden md:flex items-center justify-center bg-black"
                     style={{
                         backgroundImage: "url('/images/logImage.png')",
                         backgroundSize: "cover",
@@ -75,7 +75,7 @@ const resetPasswordPage = () => {
                 </div>
 
                 {/* RIGHT: reset form */}
-                <div className="flex items-center justify-center px-6 md:px-20">
+                <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
                     <div className="w-full max-w-md">
                         <h1 className="text-4xl md:text-5xl font-extrabold mb-2">Reset password</h1>
                         <p className="text-gray-400 mb-8 text-sm">
