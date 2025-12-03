@@ -11,7 +11,7 @@ export default function Navbar() {
       <Link href="/login" className=" hover:underline">
         Login
       </Link>
-      <Link href="/" className=" hover:underline">
+      <Link href="/signup" className=" hover:underline">
         Signup
       </Link>
     </div>
