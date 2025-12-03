@@ -1,11 +1,37 @@
-// components/LoginPage.tsx
-import Image from "next/image";
+"use client";
+
+import React from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 
-const LoginPage = () => {
+type FormValues = {
+  email: string;
+  password: string;
+  remember?: boolean;
+};
+
+const LoginPage= () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ mode: "onTouched" });
+
+  const onSubmit = async (data: FormValues) => {
+    try {
+      
+      // const res = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      // const json = await res.json();
+      console.log("login data:", data);
+      alert("Form submitted. Check console for data.");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="h-[90vh]  bg-[#111111] ">
+    <div className="h-[90vh] bg-[#111111]">
       <div className="w-7xl h-[90vh] mx-auto grid grid-cols-1 md:grid-cols-2 text-white">
         <div
           className="hidden h-[90vh] md:flex items-center justify-center bg-black"
@@ -31,9 +57,8 @@ const LoginPage = () => {
           </div>
         </div>
 
-
         {/* RIGHT: form */}
-        <div className=" h-[90vh] flex items-center justify-center px-6 md:px-20">
+        <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
           <div className="w-full max-w-md">
             <div className="text-center">
               <h2 className="text-4xl font-bold mb-2">Log in</h2>
@@ -44,37 +69,56 @@ const LoginPage = () => {
               </p>
             </div>
 
-            {/* email */}
-            <label className="text-gray-300 text-sm">Email</label>
-            <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-4">
-              <FaEnvelope className="text-gray-400 mr-3" />
-              <input
-                type="email"
-                placeholder="test@gmail.com"
-                className="w-full bg-transparent outline-none text-sm"
-              />
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              {/* email */}
+              <label className="text-gray-300 text-sm">Email</label>
+              <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-1">
+                <FaEnvelope className="text-gray-400 mr-3" />
+                <input
+                  type="email"
+                  placeholder="test@gmail.com"
+                  className="w-full bg-transparent outline-none text-sm"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
+                  })}
+                  aria-invalid={!!errors.email}
+                />
+              </div>
+              {errors.email && <p className="text-xs text-red-400 mb-3">{errors.email.message}</p>}
 
-            {/* password */}
-            <label className="text-gray-300 text-sm">Password</label>
-            <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-3">
-              <FaLock className="text-gray-400 mr-3" />
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full bg-transparent outline-none text-sm"
-              />
-            </div>
+              {/* password */}
+              <label className="text-gray-300 text-sm">Password</label>
+              <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-1">
+                <FaLock className="text-gray-400 mr-3" />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full bg-transparent outline-none text-sm"
+                  {...register("password", { required: "Password is required", minLength: { value: 6, message: "Minimum 6 characters" } })}
+                  aria-invalid={!!errors.password}
+                />
+              </div>
+              {errors.password && <p className="text-xs text-red-400 mb-3">{errors.password.message}</p>}
 
-            <div className="flex justify-between items-center text-sm mb-6 text-gray-300">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" className="h-4 w-4 accent-white" />
-                Remember me
-              </label>
-              <button className="text-sm text-gray-300 hover:underline">Forgot Password?</button>
-            </div>
+              <div className="flex justify-between items-center text-sm mb-6 text-gray-300">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" className="h-4 w-4 accent-white" {...register("remember")} />
+                  Remember me
+                </label>
+                <Link href="/forgetPassword" className="text-sm text-gray-300 hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
 
-            <button className="w-full bg-white text-black font-semibold py-2 rounded mb-4">Sign in</button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-white text-black font-semibold py-2 rounded mb-4 disabled:opacity-60"
+              >
+                {isSubmitting ? "Signing in..." : "Sign in"}
+              </button>
+            </form>
 
             <p className="text-center text-gray-400 text-sm">
               New on our platform?{" "}
@@ -104,7 +148,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
