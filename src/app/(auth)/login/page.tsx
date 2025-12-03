@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
+import Image from "next/image";
 
 type FormValues = {
   email: string;
@@ -11,7 +12,7 @@ type FormValues = {
   remember?: boolean;
 };
 
-const LoginPage= () => {
+const LoginPage = () => {
   const {
     register,
     handleSubmit,
@@ -20,7 +21,7 @@ const LoginPage= () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      
+
       // const res = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       // const json = await res.json();
       console.log("login data:", data);
@@ -34,24 +35,24 @@ const LoginPage= () => {
     <div className="h-[90vh] bg-[#111111]">
       <div className="w-7xl h-[90vh] mx-auto grid grid-cols-1 md:grid-cols-2 text-white">
         <div
-          className="hidden h-[90vh] md:flex items-center justify-center bg-black"
+          className="hidden h-[90vh] md:flex items-center justify-center bg-[#00000033]"
           style={{
             backgroundImage: "url('/images/logImage.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          <div className="text-center px-8">
+          <div className="text-center">
             {/* Logo block similar to your image */}
-            <div className="inline-flex items-center gap-6">
-              <div className="w-20 h-20 rounded-sm border-4 border-white flex items-center justify-center">
+            <div className="flex items-center gap-2">
+              <div className="w-40 h-40 flex items-center justify-center">
                 {/* simple C shape */}
-                <div className="text-4xl font-extrabold tracking-widest">C</div>
+                <Image src="/images/logo.png" alt="Logo" width={400} height={400} />
               </div>
               <div className="text-left">
-                <div className="text-3xl font-bold tracking-widest">CARBON</div>
-                <div className="text-3xl font-semibold tracking-widest">ENGINES</div>
-                <div className="text-sm mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
+                <div className="text-7xl font-bold tracking-widest">CARBON</div>
+                <div className="text-7xl font-semibold tracking-widest">ENGINES</div>
+                <div className="text-xl mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
               </div>
             </div>
           </div>
@@ -77,12 +78,14 @@ const LoginPage= () => {
                 <input
                   type="email"
                   placeholder="test@gmail.com"
-                  className="w-full bg-transparent outline-none text-sm"
+                  className="w-full bg-[#222222] text-white placeholder-gray-400 outline-none text-sm"
                   {...register("email", {
                     required: "Email is required",
-                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email address" },
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email address",
+                    }
                   })}
-                  aria-invalid={!!errors.email}
                 />
               </div>
               {errors.email && <p className="text-xs text-red-400 mb-3">{errors.email.message}</p>}
@@ -94,7 +97,7 @@ const LoginPage= () => {
                 <input
                   type="password"
                   placeholder="••••••••"
-                  className="w-full bg-transparent outline-none text-sm"
+                  className="w-full bg-[#222222] outline-none text-sm"
                   {...register("password", { required: "Password is required", minLength: { value: 6, message: "Minimum 6 characters" } })}
                   aria-invalid={!!errors.password}
                 />

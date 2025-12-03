@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
+import Image from "next/image";
 
 type FormValues = {
     email: string;
@@ -38,15 +39,17 @@ const forgetPasswordPage = () => {
                         backgroundPosition: "center",
                     }}
                 >
-                    <div className="text-center px-8">
-                        <div className="inline-flex items-center gap-6">
-                            <div className="w-20 h-20 rounded-sm border-4 border-white flex items-center justify-center">
-                                <div className="text-4xl font-extrabold tracking-widest">C</div>
+                    <div className="text-center">
+                        {/* Logo block similar to your image */}
+                        <div className="flex items-center gap-2">
+                            <div className="w-40 h-40 flex items-center justify-center">
+                                {/* simple C shape */}
+                                <Image src="/images/logo.png" alt="Logo" width={400} height={400} />
                             </div>
                             <div className="text-left">
-                                <div className="text-3xl font-bold tracking-widest">CARBON</div>
-                                <div className="text-3xl font-semibold tracking-widest">ENGINES</div>
-                                <div className="text-sm mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
+                                <div className="text-7xl font-bold tracking-widest">CARBON</div>
+                                <div className="text-7xl font-semibold tracking-widest">ENGINES</div>
+                                <div className="text-xl mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
                             </div>
                         </div>
                     </div>
@@ -55,10 +58,12 @@ const forgetPasswordPage = () => {
                 {/* RIGHT: form */}
                 <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
                     <div className="w-full max-w-md">
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Forgot Password?</h1>
+                       <div className="text-center ">
+                         <h1 className="text-4xl md:text-5xl font-bold mb-3">Forgot Password?</h1>
                         <p className="text-gray-400 mb-8 text-sm">
                             Lost your password? Please enter your email address. You will receive a link to create a new password via email.
                         </p>
+                       </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} noValidate>
                             <label htmlFor="email" className="text-gray-300 text-sm">Email</label>
