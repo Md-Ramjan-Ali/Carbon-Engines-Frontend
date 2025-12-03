@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Navbar() {
   return (
-    <div className="flex justify-center gap-3 mt-4 mb-4">
+    <div className="h-[10vh] flex justify-center items-center bg-black text-white gap-3 ">
       <Link href="/" className=" hover:underline">
         Home
       </Link>

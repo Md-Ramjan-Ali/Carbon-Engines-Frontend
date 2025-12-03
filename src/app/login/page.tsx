@@ -4,10 +4,10 @@ import { FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle } from "react-icon
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-[#111111] text-white">
+    <div className="h-[90vh] grid grid-cols-1 md:grid-cols-2 bg-[#111111] text-white">
       {/* LEFT: Brand / image */}
       <div
-        className="hidden md:flex items-center justify-center bg-black"
+        className="hidden lg:flex items-center justify-center bg-[#0d0d0d]"
       >
         <div className="text-center px-8">
           {/* Logo block similar to your image */}
@@ -29,12 +29,14 @@ const LoginPage = () => {
       {/* RIGHT: form */}
       <div className="flex items-center justify-center px-6 md:px-20">
         <div className="w-full max-w-md">
-          <h2 className="text-4xl font-bold mb-2">Log in</h2>
-          <p className="text-gray-400 mb-8">
-            Welcome to Back! <span aria-hidden>👋</span>
-            <br />
-            <span className="text-sm text-gray-500">Please sign in to your account and start the adventure</span>
-          </p>
+          <div className="text-center">
+            <h2 className="text-4xl font-bold mb-2">Log in</h2>
+            <p className="text-gray-400 mb-8">
+              Welcome to Back! <span aria-hidden>👋</span>
+              <br />
+              <span className="text-sm text-gray-500">Please sign in to your account and start the adventure</span>
+            </p>
+          </div>
 
           {/* email */}
           <label className="text-gray-300 text-sm">Email</label>
