@@ -51,7 +51,7 @@ const signUpPage = () => {
     };
     return (
         <div className="h-[90vh]  bg-[#111111]">
-            <div className="w-7xl h-[90vh] mx-auto grid grid-cols-1 md:grid-cols-2 text-white">
+            <div className=" h-[90vh] grid grid-cols-1 md:grid-cols-2 text-white">
                 {/* LEFT: carbon background (using uploaded local image path) */}
                 <div
                     className="h-[90vh] hidden md:flex items-center justify-center bg-black"

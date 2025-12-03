@@ -66,94 +66,96 @@ const verifyEmailPage = () => {
     }
   };
   return (
-    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 bg-[#111111] text-white">
-      {/* LEFT: carbon background */}
-      <div
-        className="h-[90vh] hidden md:flex items-center justify-center bg-black"
-        style={{
-          backgroundImage: "url('/carbon-bg.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="text-center">
-          {/* Logo block similar to your image */}
-          <div className="flex items-center gap-2">
-            <div className="w-40 h-40 flex items-center justify-center">
-              {/* simple C shape */}
-              <Image src="/images/logo.png" alt="Logo" width={400} height={400} />
-            </div>
-            <div className="text-left">
-              <div className="text-7xl font-bold tracking-widest">CARBON</div>
-              <div className="text-7xl font-semibold tracking-widest">ENGINES</div>
-              <div className="text-xl mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
+    <div className="h-[90vh] bg-[#111111]">
+      <div className=" h-[90vh] grid grid-cols-1 md:grid-cols-2 text-white">
+        {/* LEFT: carbon background */}
+        <div
+          className="h-[90vh] hidden md:flex items-center justify-center bg-black"
+          style={{
+            backgroundImage: "url('/carbon-bg.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="text-center">
+            {/* Logo block similar to your image */}
+            <div className="flex items-center gap-2">
+              <div className="w-40 h-40 flex items-center justify-center">
+                {/* simple C shape */}
+                <Image src="/images/logo.png" alt="Logo" width={400} height={400} />
+              </div>
+              <div className="text-left">
+                <div className="text-7xl font-bold tracking-widest">CARBON</div>
+                <div className="text-7xl font-semibold tracking-widest">ENGINES</div>
+                <div className="text-xl mt-2 text-gray-300 tracking-wider">ENGINEERED FOR STRENGTH</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* RIGHT: verify form */}
-      <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
-        <div className="w-full max-w-md">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Verify your mail</h1>
-          <p className="text-gray-400 mb-8 text-sm">
-            Account activation link sent to your email address: <br />
-            <span className="text-gray-500">{defaultEmail || "exampleinfo@mail.com"}</span>
-            <br />
-            Please follow the link inside to continue.
-          </p>
+        {/* RIGHT: verify form */}
+        <div className="h-[90vh] flex items-center justify-center px-6 md:px-20">
+          <div className="w-full max-w-md">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Verify your mail</h1>
+            <p className="text-gray-400 mb-8 text-sm">
+              Account activation link sent to your email address: <br />
+              <span className="text-gray-500">{defaultEmail || "exampleinfo@mail.com"}</span>
+              <br />
+              Please follow the link inside to continue.
+            </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            <label htmlFor="email" className="text-gray-300 text-sm">Email</label>
-            <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-3">
-              <FaEnvelope className="text-gray-400 mr-3" />
-              <input
-                id="email"
-                type="email"
-                placeholder="test@gmail.com"
-                className="w-full bg-transparent outline-none text-sm"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email" },
-                })}
-                aria-invalid={!!errors.email}
-              />
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <label htmlFor="email" className="text-gray-300 text-sm">Email</label>
+              <div className="flex items-center bg-[#222222] p-3 rounded mt-2 mb-3">
+                <FaEnvelope className="text-gray-400 mr-3" />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="test@gmail.com"
+                  className="w-full bg-transparent outline-none text-sm"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Invalid email" },
+                  })}
+                  aria-invalid={!!errors.email}
+                />
+              </div>
+              {errors.email && <p className="text-xs text-red-400 mb-3">{errors.email.message}</p>}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-white text-black font-semibold py-2 rounded mb-3 disabled:opacity-60"
+              >
+                {isSubmitting ? "Sending..." : "Send Code"}
+              </button>
+            </form>
+
+            <div className="text-center mb-3">
+              <button
+                onClick={() => router.push("/")}
+                className="text-sm text-gray-400 hover:underline"
+              >
+                Skip For Now
+              </button>
             </div>
-            {errors.email && <p className="text-xs text-red-400 mb-3">{errors.email.message}</p>}
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-white text-black font-semibold py-2 rounded mb-3 disabled:opacity-60"
-            >
-              {isSubmitting ? "Sending..." : "Send Code"}
-            </button>
-          </form>
+            <div className="text-center mb-3 text-sm text-gray-400">
+              Didn't get the mail?{" "}
+              <button
+                onClick={handleResend}
+                disabled={resendCooldown > 0}
+                className={`font-medium ml-1 ${resendCooldown > 0 ? "text-gray-500" : "text-white underline"}`}
+              >
+                {resendCooldown > 0 ? `Resend (${resendCooldown}s)` : "Resend"}
+              </button>
+            </div>
 
-          <div className="text-center mb-3">
-            <button
-              onClick={() => router.push("/")}
-              className="text-sm text-gray-400 hover:underline"
-            >
-              Skip For Now
-            </button>
-          </div>
+            {message && <p className="text-center text-sm text-green-400 mb-3">{message}</p>}
 
-          <div className="text-center mb-3 text-sm text-gray-400">
-            Didn't get the mail?{" "}
-            <button
-              onClick={handleResend}
-              disabled={resendCooldown > 0}
-              className={`font-medium ml-1 ${resendCooldown > 0 ? "text-gray-500" : "text-white underline"}`}
-            >
-              {resendCooldown > 0 ? `Resend (${resendCooldown}s)` : "Resend"}
-            </button>
-          </div>
-
-          {message && <p className="text-center text-sm text-green-400 mb-3">{message}</p>}
-
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <Link href="/login" className="text-gray-400 hover:underline text-sm">← Back to Login</Link>
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <Link href="/login" className="text-gray-400 hover:underline text-sm">← Back to Login</Link>
+            </div>
           </div>
         </div>
       </div>
