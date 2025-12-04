@@ -113,7 +113,7 @@ const signUpPage = () => {
                                     id="username"
                                     {...register("username", { required: "Username is required", minLength: { value: 2, message: "Minimum 2 chars" } })}
                                     className="w-full bg-transparent outline-none text-sm"
-                                    placeholder="yourname"
+                                    placeholder="your name"
                                     aria-invalid={!!errors.username}
                                 />
                             </div>
