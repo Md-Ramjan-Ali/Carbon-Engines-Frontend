@@ -1,7 +1,7 @@
+// // 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
-
-async function parseJsonResponse(res) {
+async function parseJsonResponse(res ) {
     const payload = await res.json().catch(() => ({}));
     const body = payload.data ?? payload;
     return { ok: res.ok, status: res.status, payload, body };
@@ -34,7 +34,7 @@ export async function login(email, password) {
 
 
 export async function signup(name, email, password) {
-    const res = await fetch(`${API_BASE}/api/auth/signup`, {
+    const res = await fetch("https://api.yamiz.org/api/auth/register", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -90,6 +90,18 @@ export async function verifyOtp(email, otp) {
     return body;
 }
 
+export async function resendOtp(email) {
+  // backend এ একটি endpoint থাকতে হবে: POST /api/auth/resend-otp { email }
+  const res = await fetch(`${API_BASE}/api/resend-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  const { ok, body, payload } = await parseJsonResponse(res);
+  if (!ok) throw payload;
+  return body;
+}
+
 export function logout() {
     localStorage.removeItem('ce_token');
     localStorage.removeItem('ce_user');
@@ -115,3 +127,87 @@ export async function fetchWithAuth(path, opts = {}) {
     const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
     return res;
 }
+
+// SECURE COOKIE-BASED AUTH CLIENT
+// const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+
+// async function parseJsonResponse(res) {
+//   const payload = await res.json().catch(() => ({}));
+//   const body = payload.data ?? payload;
+//   return { ok: res.ok, status: res.status, payload, body };
+// }
+
+
+// export async function login(email, password) {
+//   const res = await fetch(`${API_BASE}/api/auth/login`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ email, password }),
+//     credentials: "include", 
+//   });
+
+//   const { ok, body, payload } = await parseJsonResponse(res);
+//   if (!ok) throw payload;
+
+//   return body;
+// }
+
+// export async function signup(name, email, password) {
+//   const res = await fetch("https://api.yamiz.org/api/auth/register", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ name, email, password }),
+//     credentials: "include", 
+//   });
+
+//   const { ok, body, payload } = await parseJsonResponse(res);
+//   if (!ok) throw payload;
+
+//   return body;
+// }
+
+// export async function verifyOtp(email, otp) {
+//   const res = await fetch(`${API_BASE}/api/auth/verify-otp`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ email, otp }),
+//     credentials: "include", 
+//   });
+
+//   const { ok, body, payload } = await parseJsonResponse(res);
+//   if (!ok) throw payload;
+
+//   return body;
+// }
+
+// export async function resendOtp(email) {
+//   const res = await fetch(`${API_BASE}/api/resend-otp`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ email }),
+//     credentials: "include",
+//   });
+
+//   const { ok, body, payload } = await parseJsonResponse(res);
+//   if (!ok) throw payload;
+
+//   return body;
+// }
+
+// export async function fetchWithAuth(path, opts = {}) {
+//   const res = await fetch(`${API_BASE}${path}`, {
+//     ...opts,
+//     headers: { ...(opts.headers || {}), "Content-Type": "application/json" },
+//     credentials: "include", 
+//   });
+
+//   return res;
+// }
+
+// // Logout → backend must clear cookie using Set-Cookie
+// export async function logout() {
+//   await fetch(`${API_BASE}/api/auth/logout`, {
+//     method: "POST",
+//     credentials: "include",
+//   });
+// }

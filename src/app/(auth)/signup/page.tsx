@@ -2,9 +2,11 @@
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { FaUser, FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
+import { signup } from "../../../lib/authClient";
+import { useRouter } from 'next/navigation';
 
 
 type FormValues = {
@@ -16,6 +18,8 @@ type FormValues = {
 };
 
 const signUpPage = () => {
+    const router = useRouter();
+    const [serverError, setServerError] = useState<string | null>(null);
     const {
         register,
         handleSubmit,
@@ -34,21 +38,90 @@ const signUpPage = () => {
 
     const password = watch("password");
 
-    const onSubmit = async (data: FormValues) => {
-
+    async function onSubmit(data: FormValues) {
+        setServerError(null);
         try {
-            console.log("form data:", data);
-            // const resp = await fetch("/api/signup", {
-            //   method: "POST",
-            //   headers: { "Content-Type": "application/json" },
-            //   body: JSON.stringify(data),
-            // });
-            // handle response...
-            alert("Signup data logged to console (replace with API call).");
-        } catch (err) {
-            console.error(err);
+            // const name = values.username;
+            // const email = values.email;
+            // const passwordValue = values.password;
+
+            const body =  await fetch("https://api.yamiz.org/api/auth/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            });
+            console.log('signup response:', body);
+            
+
+            // If backend gave token or marked user verified -> go to profile/home
+            // if (body && (body.token || body.user?.isVerified)) {
+            //     router.push('/home'); 
+            //     return;
+            // }
+
+            // Otherwise OTP/email verification step is needed
+            router.push(`/verify-otp?email=${encodeURIComponent(data.email)}`);
+        } catch (err: any) {
+            console.error('Signup failed', err);
+            // Try to derive a friendly message from backend payloads
+            let msg = 'Signup failed';
+            if (err) {
+                if (typeof err === 'string') msg = err;
+                else if (err.message) msg = err.message;
+                else if (err?.payload?.message) msg = err.payload.message;
+                else msg = JSON.stringify(err).slice(0, 200);
+            }
+            setServerError(msg);
         }
-    };
+    }
+    // async function onSubmit(values: FormValues) {
+    //     setServerError(null);
+    //     try {
+    //         const name = values.username;
+    //         const email = values.email;
+    //         const passwordValue = values.password;
+
+    //         const body = await signup(name, email, passwordValue);
+    //         console.log('signup response:', body);
+
+    //         // If backend gave token or marked user verified -> go to profile/home
+    //         if (body && (body.token || body.user?.isVerified)) {
+    //             router.push('/home'); 
+    //             return;
+    //         }
+
+    //         // Otherwise OTP/email verification step is needed
+    //         router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
+    //     } catch (err: any) {
+    //         console.error('Signup failed', err);
+    //         // Try to derive a friendly message from backend payloads
+    //         let msg = 'Signup failed';
+    //         if (err) {
+    //             if (typeof err === 'string') msg = err;
+    //             else if (err.message) msg = err.message;
+    //             else if (err?.payload?.message) msg = err.payload.message;
+    //             else msg = JSON.stringify(err).slice(0, 200);
+    //         }
+    //         setServerError(msg);
+    //     }
+    // }
+
+    //     const onSubmit = async (data: FormValues) => {
+
+    //     try {
+    //         console.log("form data:", data);
+    //         await fetch("https://api.yamiz.org/api/auth/register", {
+    //           method: "POST",
+    //           headers: { "Content-Type": "application/json" },
+    //           body: JSON.stringify(data),
+    //         });
+    //         // handle response...
+    //         alert("Signup data logged to console (replace with API call).");
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
+
     return (
         <div className="h-[90vh]  bg-[#111111]">
             <div className=" h-[90vh] grid grid-cols-1 md:grid-cols-2 text-white">
