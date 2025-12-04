@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+// import React, { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
   email: string;
@@ -13,6 +14,7 @@ type FormValues = {
 };
 
 const LoginPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -21,15 +23,19 @@ const LoginPage = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-
-      // const res = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      // const json = await res.json();
-      console.log("login data:", data);
+      const body = await fetch("https://api.yamiz.org/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      console.log('signup response:', body);
       alert("Form submitted. Check console for data.");
+      router.push('/profile');
     } catch (err) {
       console.error(err);
     }
   };
+
 
   return (
     <div className="h-[90vh] bg-[#111111]">
